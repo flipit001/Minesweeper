@@ -1,6 +1,6 @@
-from vars import *
-from sudokuenv import *
 import sys
+from src.vars import *
+from src.sudokuenv import *
 
 dif = sys.argv[1].lower()
 
