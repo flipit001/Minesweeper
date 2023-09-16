@@ -31,7 +31,7 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
 
-        tile_screen.fill("white")
+        screen.fill("lightgray")
 
         pygame.display.flip()
 

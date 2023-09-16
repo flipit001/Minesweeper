@@ -8,3 +8,4 @@ MINE = -1
 NUMBER_MODE = True
 WIDTH, HEIGHT = 600, 800
 CALC_NUMBER_SIZE = lambda nx, ny: (WIDTH // nx, (HEIGHT - 200) // ny)
+START = 200
