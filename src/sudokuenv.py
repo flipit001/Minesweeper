@@ -41,3 +41,5 @@ class SudokuEnv:
                                 continue
                             if self.board[y][x] != MINE:
                                 self.board[y][x] += 1
+
+    # def draw(self, screen):

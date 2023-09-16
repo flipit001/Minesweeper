@@ -17,8 +17,6 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Minesweeper")
 
 font = pygame.font.SysFont("arial", size=36)
-button_screen = pygame.surface.Surface((WIDTH, 200))
-tile_screen = pygame.surface.Surface((WIDTH, HEIGHT - 200))
 running = True
 while running:
     ##############
