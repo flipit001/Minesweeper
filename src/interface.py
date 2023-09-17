@@ -3,7 +3,10 @@ from vars import *
 
 
 def render_text(font, text, color="black", bg_color="white"):
-    return font.render(text, True, color, bg_color)
+    if text != "0":
+        return font.render(text, True, color, bg_color)
+    else:
+        return font.render("", True, color, bg_color)
 
 
 class Button:

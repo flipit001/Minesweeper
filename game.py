@@ -6,80 +6,97 @@ from src.vars import *
 from src.sudokuenv import *
 from src.interface import *
 
-dif = sys.argv[1].lower()
 
-env = SudokuEnv(dif)
-print(env.active)
-env._print_board()
-num_size = (WIDTH // env.size[0], (HEIGHT - START) // env.size[1])
+class Game:
+    def __init__(self):
+        self.reset()
 
-pygame.init()
+    def reset(self):
+        self.dif = sys.argv[1].lower()
 
-square = pygame.image.load("assets/square.png")
-square = pygame.transform.scale(square, num_size)
+        self.env = SudokuEnv(self.dif)
+        self.env._print_board()
+        self.num_size = (
+            WIDTH // self.env.size[0],
+            (HEIGHT - START) // self.env.size[1],
+        )
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Minesweeper")
+        pygame.init()
 
-font = pygame.font.SysFont("arial", size=24)
+        self.square = pygame.image.load("assets/square.png")
+        self.square = pygame.transform.scale(self.square, self.num_size)
 
-buttons = [[None for _ in env.board] for _ in env.board[0]]
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Minesweeper")
 
-for i in range(len(env.board)):
-    for j in range(len(env.board[i])):
-        rect = pygame.rect.Rect((num_size[0] * i, num_size[1] * j + START), num_size)
-        render = render_text(font, str(env.board[i][j]), "black", "lightgray")
-        but = Button(render, rect, active=False, dif=dif)
-        buttons[j][i] = but
+        font = pygame.font.SysFont("arial", size=24)
 
+        self.buttons = [[None for _ in self.env.board] for _ in self.env.board[0]]
+        self.dead = False
 
-running = True
-while running:
-    ##############
-    # event loop #
-    ##############
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            running = False
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
-                running = False
-        if event.type == MOUSEBUTTONDOWN:
-            for r in buttons:
-                for b in r:
-                    b.update(pygame.mouse.get_pos())
-
-        screen.fill("lightgray")
-
-        # DRAW BOARD################################################################
-        for i in range(len(env.board)):
-            for j in range(len(env.board[i])):
-                # print(env.size[0] * i, env.size[1] * j)
-                if buttons[j][i].active:
-                    continue
-                screen.blit(
-                    square,
-                    (num_size[0] * i, num_size[1] * j + START),
+        for i in range(len(self.env.board)):
+            for j in range(len(self.env.board[i])):
+                rect = pygame.rect.Rect(
+                    (self.num_size[0] * i, self.num_size[1] * j + START), self.num_size
                 )
-        for i in range(len(env.board)):
-            pygame.draw.aaline(
-                screen,
-                "black",
-                (i * num_size[0], START),
-                (i * num_size[0], HEIGHT - 8),
-            )
-        for i in range(len(env.board[0]) + 1):
-            pygame.draw.aaline(
-                screen,
-                "black",
-                (0, i * num_size[1] + START),
-                (WIDTH, i * num_size[1] + START),
-            )
-        for i in range(len(env.board)):
-            for j in range(len(env.board[i])):
-                buttons[j][i].draw(screen)
-        ###################################################################
+                render = render_text(
+                    font, str(self.env.board[i][j]), "black", "lightgray"
+                )
+                but = Button(render, rect, active=False, dif=self.dif)
+                self.buttons[j][i] = but
 
-        pygame.display.flip()
+    def run(self):
+        running = True
+        while running:
+            ##############
+            # event loop #
+            ##############
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+                elif event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        running = False
+                if event.type == MOUSEBUTTONDOWN:
+                    for r in self.buttons:
+                        for b in r:
+                            b.update(pygame.mouse.get_pos())
 
-pygame.quit()
+                self.screen.fill("lightgray")
+
+                # DRAW BOARD################################################################
+                for i in range(len(self.env.board)):
+                    for j in range(len(self.env.board[i])):
+                        # print(self.env.size[0] * i, self.env.size[1] * j)
+                        if self.buttons[j][i].active:
+                            continue
+                        self.screen.blit(
+                            self.square,
+                            (self.num_size[0] * i, self.num_size[1] * j + START),
+                        )
+                for i in range(len(self.env.board)):
+                    pygame.draw.aaline(
+                        self.screen,
+                        "black",
+                        (i * self.num_size[0], START),
+                        (i * self.num_size[0], HEIGHT - 8),
+                    )
+                for i in range(len(self.env.board[0]) + 1):
+                    pygame.draw.aaline(
+                        self.screen,
+                        "black",
+                        (0, i * self.num_size[1] + START),
+                        (WIDTH, i * self.num_size[1] + START),
+                    )
+                for i in range(len(self.env.board)):
+                    for j in range(len(self.env.board[i])):
+                        self.buttons[j][i].draw(self.screen)
+                ###################################################################
+
+                pygame.display.flip()
+
+        pygame.quit()
+
+
+if __name__ == "__main__":
+    Game().run()
