@@ -35,9 +35,11 @@ class SudokuEnv:
                     for x in range(j - 1, j + 2):
                         for y in range(i - 1, i + 2):  # get a box around the point
                             # print(i, j, x, y)
-                            if (0 < x >= len(self.board[0])) or (
-                                0 < y >= len(self.board)
+                            # print(len(self.board[0]))
+                            if (x < 0 or x >= len(self.board[0])) or (
+                                y < 0 or y >= len(self.board)
                             ):
                                 continue
                             if self.board[y][x] != MINE:
                                 self.board[y][x] += 1
+                                print(y, x)
