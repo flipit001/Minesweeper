@@ -5,6 +5,7 @@ sys.path.append("src/")
 from src.vars import *
 from src.sudokuenv import *
 from src.interface import *
+from src.exceptions import *
 
 
 class Game:
@@ -13,6 +14,8 @@ class Game:
 
     def reset(self):
         self.dif = sys.argv[1].lower()
+        if self.dif not in TILES.keys():
+            raise DifficultyNotFound(f"'{self.dif}' difficulty does not exist.")
 
         self.env = SudokuEnv(self.dif)
         self.env._print_board()
