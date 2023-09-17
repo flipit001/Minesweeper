@@ -9,6 +9,11 @@ class SudokuEnv:
         self.mine_count = 0
         self._add_random_mines()
         self._add_values()
+        self.active = {
+            (i, j): False
+            for i in range(len(self.board))
+            for j in range(len(self.board[i]))
+        }
 
     def __repr__(self):
         return str(self.board)
@@ -41,5 +46,3 @@ class SudokuEnv:
                                 continue
                             if self.board[y][x] != MINE:
                                 self.board[y][x] += 1
-
-    # def draw(self, screen):

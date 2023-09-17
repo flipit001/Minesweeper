@@ -1,4 +1,5 @@
 import pygame
+from vars import *
 
 
 def render_text(font, text, color="black", bg_color="white"):
@@ -6,15 +7,28 @@ def render_text(font, text, color="black", bg_color="white"):
 
 
 class Button:
-    def __init__(self, preloaded_content, x, y, on_trigger, active=True):
-        self.x = x
-        self.y = y
-        self.rect = preloaded_content.get_rect(topleft=(x, y))
+    def __init__(
+        self,
+        preloaded_content,
+        rect,
+        dif,
+        active=True,
+    ):
+        self.rect = rect
         self.active = active
         self.preloaded_content = preloaded_content
-        self.on_trigger = on_trigger
+        self.dif = dif
 
-    def update(self, screen, mouse_pos):
-        screen.blit(self.preloaded_content, (self.x, self.y))
-        if self.rect.collidepoint(mouse_pos) and self.active:
-            self.on_trigger()
+    def update(self, mouse_pos):
+        if self.rect.collidepoint(mouse_pos):
+            self.active = True
+
+    def draw(self, screen):
+        if self.active:
+            screen.blit(
+                self.preloaded_content,
+                (
+                    self.rect.centerx,
+                    self.rect.y + ((HEIGHT - START) // TILES[self.dif][0][1]) / 4,
+                ),
+            )
