@@ -23,6 +23,10 @@ class Game:
 
         pygame.init()
 
+        self.smile = pygame.image.load("assets/smile-icon.png")
+        self.smile = pygame.transform.scale(self.smile, (100, 100))
+        self.smile_button = Button(self.smile, WIDTH / 2, 50, self.reset)
+
         self.square = pygame.image.load("assets/square.png")
         self.square = pygame.transform.scale(self.square, self.num_size)
 
@@ -42,7 +46,7 @@ class Game:
                 render = render_text(
                     font, str(self.env.board[i][j]), "black", "lightgray"
                 )
-                but = Button(render, rect, active=False, dif=self.dif)
+                but = TileButton(render, rect, active=False, dif=self.dif)
                 self.buttons[j][i] = but
 
     def run(self):
@@ -58,9 +62,17 @@ class Game:
                     if event.key == K_ESCAPE:
                         running = False
                 if event.type == MOUSEBUTTONDOWN:
-                    for r in self.buttons:
-                        for b in r:
-                            b.update(pygame.mouse.get_pos())
+                    if not self.dead:
+                        for i in range(len(self.buttons)):
+                            for j in range(len(self.buttons[i])):
+                                if (
+                                    self.buttons[j][i].update(pygame.mouse.get_pos())
+                                    and self.env.board[i][j] == -1
+                                ):
+                                    # print("HERE", j, i, self.env.board[i][j])
+                                    self.dead = True
+
+                    self.smile_button.update(pygame.mouse.get_pos())
 
                 self.screen.fill("lightgray")
 
@@ -92,6 +104,8 @@ class Game:
                     for j in range(len(self.env.board[i])):
                         self.buttons[j][i].draw(self.screen)
                 ###################################################################
+                # draw buttons
+                self.smile_button.draw(self.screen)
 
                 pygame.display.flip()
 
