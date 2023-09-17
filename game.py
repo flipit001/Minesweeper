@@ -44,7 +44,7 @@ class Game:
                     (self.num_size[0] * i, self.num_size[1] * j + START), self.num_size
                 )
                 render = render_text(
-                    font, str(self.env.board[i][j]), "black", "lightgray"
+                    font, str(self.env.board[j][i]), "black", "lightgray"
                 )
                 but = TileButton(render, rect, active=False, dif=self.dif)
                 self.buttons[j][i] = but
@@ -67,7 +67,7 @@ class Game:
                             for j in range(len(self.buttons[i])):
                                 if (
                                     self.buttons[j][i].update(pygame.mouse.get_pos())
-                                    and self.env.board[i][j] == -1
+                                    and self.env.board[j][i] == -1
                                 ):
                                     # print("HERE", j, i, self.env.board[i][j])
                                     self.dead = True
