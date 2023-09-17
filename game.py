@@ -47,15 +47,27 @@ while running:
                 screen,
                 "black",
                 (i * num_size[0], START),
-                (i * num_size[0], HEIGHT),
+                (i * num_size[0], HEIGHT - 8),
             )
-        for i in range(len(env.board[0])):
+        for i in range(len(env.board[0]) + 1):
             pygame.draw.aaline(
                 screen,
                 "black",
                 (0, i * num_size[1] + START),
                 (WIDTH, i * num_size[1] + START),
             )
+        for i in range(len(env.board)):
+            for j in range(len(env.board[i])):
+                render = render_text(font, str(env.board[i][j]))
+                screen.blit(
+                    render,
+                    render.get_rect(
+                        center=(
+                            (num_size[0] * i) + num_size[0] / 2,
+                            (num_size[1] * j) + num_size[1] / 2 + START,
+                        )
+                    ),
+                )
 
         pygame.display.flip()
 
