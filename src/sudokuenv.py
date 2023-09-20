@@ -66,7 +66,7 @@ class SudokuEnv:
                 if self._coord_in_bounds(pos) and self.board[pos[0]][pos[1]] == 0:
                     # print("HERE")
                     queue.append(pos)
-                else:
+                elif self._coord_in_bounds(pos):
                     output.append(pos)
         print(output)
         return output
