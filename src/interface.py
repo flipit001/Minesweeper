@@ -58,6 +58,10 @@ class TileButton:
             return True
         return False
 
+    def force_update(self):
+        self.active = True
+        return True
+
     def draw(self, screen):
         if self.active:
             screen.blit(

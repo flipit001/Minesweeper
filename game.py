@@ -68,12 +68,14 @@ class Game:
                     if not self.dead:
                         for i in range(len(self.buttons)):
                             for j in range(len(self.buttons[i])):
-                                if (
-                                    self.buttons[j][i].update(pygame.mouse.get_pos())
-                                    and self.env.board[j][i] == -1
-                                ):
-                                    # print("HERE", j, i, self.env.board[i][j])
-                                    self.dead = True
+                                if self.buttons[j][i].update(pygame.mouse.get_pos()):
+                                    if self.env.board[j][i] == 0:
+                                        for y, x in self.env.all_revealed((j, i)):
+                                            if (y, x) != (j, i):
+                                                self.buttons[y][x].force_update()
+                                    if self.env.board[j][i] == -1:
+                                        # print("HERE", j, i, self.env.board[i][j])
+                                        self.dead = True
 
                     self.smile_button.update(pygame.mouse.get_pos())
 
@@ -116,4 +118,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    Game().run()
+    # Game().run()
+    game = Game().run()

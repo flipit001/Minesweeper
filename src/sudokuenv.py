@@ -1,4 +1,5 @@
-from src.vars import *
+from vars import *
+from helpers import *
 import random
 
 
@@ -12,6 +13,12 @@ class SudokuEnv:
 
     def __repr__(self):
         return str(self.board)
+
+    def _coord_in_bounds(self, coord: tuple):
+        x, y = coord
+        return not (
+            (x < 0 or x >= len(self.board[0])) or (y < 0 or y >= len(self.board))
+        )
 
     def _print_board(self):
         for row in self.board:
@@ -36,10 +43,38 @@ class SudokuEnv:
                         for y in range(i - 1, i + 2):  # get a box around the point
                             # print(i, j, x, y)
                             # print(len(self.board[0]))
-                            if (x < 0 or x >= len(self.board[0])) or (
-                                y < 0 or y >= len(self.board)
-                            ):
+                            if not self._coord_in_bounds((x, y)):
                                 continue
                             if self.board[y][x] != MINE:
                                 self.board[y][x] += 1
-                                print(y, x)
+                                # print(y, x)
+
+    def all_revealed(self, coord):
+        if self.board[coord[0]][coord[1]] != 0:
+            print([coord])
+            return [coord]
+        output = []
+        queue = CustomQueue()
+        queue.append(coord)
+        print(queue.length())
+        while queue.length() > 0:
+            # print("HERE")
+            curpos = queue.pop()
+            output.append(curpos)
+            for operation in T_OPERATIONS:
+                pos = t_addition(curpos, operation)
+                if self._coord_in_bounds(pos) and self.board[pos[0]][pos[1]] == 0:
+                    # print("HERE")
+                    queue.append(pos)
+                else:
+                    output.append(pos)
+        print(output)
+        return output
+
+
+if __name__ == "__main__":
+    env = SudokuEnv("easy")
+    env._print_board()
+    x = int(input())
+    y = int(input())
+    env.all_revealed((x, y))
