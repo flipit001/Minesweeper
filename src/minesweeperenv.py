@@ -3,7 +3,7 @@ from helpers import *
 import random
 
 
-class SudokuEnv:
+class MinesweeperEnv:
     def __init__(self, difficulty):
         self.size, self.num_mines = TILES[difficulty]
         self.board = [[BLANK for _ in range(self.size[1])] for _ in range(self.size[0])]
@@ -73,7 +73,7 @@ class SudokuEnv:
 
 
 if __name__ == "__main__":
-    env = SudokuEnv("easy")
+    env = MinesweeperEnv("easy")
     env._print_board()
     x = int(input())
     y = int(input())

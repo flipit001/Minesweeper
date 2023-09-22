@@ -18,7 +18,7 @@ class Game:
         if self.dif not in TILES.keys():
             raise DifficultyNotFound(f"'{self.dif}' difficulty does not exist.")
 
-        self.env = SudokuEnv(self.dif)
+        self.env = MinesweeperEnv(self.dif)
         self.env._print_board()
         self.num_size = (
             WIDTH // self.env.size[0],
