@@ -3,13 +3,14 @@ from pygame.locals import *
 
 sys.path.append("src/")
 from src.vars import *
-from src.sudokuenv import *
+from src.minesweeperenv import *
 from src.interface import *
 from src.exceptions import *
 
 
 class Game:
     def __init__(self):
+        pygame.init()
         self.reset()
 
     def reset(self):
@@ -23,8 +24,6 @@ class Game:
             WIDTH // self.env.size[0],
             (HEIGHT - START) // self.env.size[1],
         )
-
-        pygame.init()
 
         self.smile = pygame.image.load("assets/smile-icon.png")
         self.smile = pygame.transform.scale(self.smile, (100, 100))
